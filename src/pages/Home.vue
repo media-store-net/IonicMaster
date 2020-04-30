@@ -12,13 +12,13 @@
         </ion-list-header>
         <ion-item v-for="order in orderList[0]" :key="order.id">
           <!-- @click="$router.push({ name: 'OrderDetails' })" -->
-          <span v-for="orderItem in order" :key="orderItem.id">
+          <span v-for="(orderItem, index) in order" :key="index">
             <span>
-              <i>{{ orderItem }}</i>
+              <i> {{ orderItem }}</i>
             </span>
             <!-- <ion-note slot="start">{{ order.split("%")[0] }}</ion-note> -->
-            <span style="width:90%">{{ orderItem[1] }}</span>
-            <ion-note slot="end">{{ orderItem[2] }}</ion-note>
+            <!-- <span style="width:90%">{{ orderItem[1] }}</span>
+            <ion-note slot="end">{{ orderItem[2] }}</ion-note> -->
           </span>
         </ion-item>
       </ion-list>
@@ -47,27 +47,18 @@ export default {
   data() {
     return {
       orderList: [],
-      oredeItem: "",
     };
   },
   mounted() {
-    // if (!this.orderList) {
-    //   axios.get("../orderSchema.json").then((res) => {
-    //     console.log(res.data);
-    //     this.orderList = res.data;
-    //   });
-    // }
     const self = this;
 
     axios
-      .get("http://localhost:85/")
+      .get("http://192.168.1.10:85/")
       .then((res) => {
-        // console.log(res.data);
         const isErrors = res.data.isErrors;
         if (!isErrors) {
           // One line to array
           self.orderList.push(res.data.orders);
-
           console.log(self.orderList);
         }
       })
