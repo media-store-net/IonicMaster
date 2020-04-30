@@ -10,15 +10,20 @@
         <ion-list-header>
           <ion-label>Список заказов</ion-label>
         </ion-list-header>
-        <ion-item v-for="order in orderList[0]" :key="order.id">
+        <ion-item v-for="(order, index) in orderList[0]" :key="index">
           <!-- @click="$router.push({ name: 'OrderDetails' })" -->
-          <span v-for="orderItem in order" :key="orderItem.id">
-            <span>
+          <span
+            v-for="(orderItem, index) in order"
+            :key="index"
+            style="width:100%"
+          >
+            <span v-if="index === 0">
               <i>{{ orderItem }}</i>
             </span>
-            <!-- <ion-note slot="start">{{ order.split("%")[0] }}</ion-note> -->
-            <span style="width:90%">{{ orderItem[1] }}</span>
-            <ion-note slot="end">{{ orderItem[2] }}</ion-note>
+            <span v-if="index === 1">{{ orderItem }}</span>
+            <span v-if="index === 2">
+              <i>{{ orderItem }}</i>
+            </span>
           </span>
         </ion-item>
       </ion-list>
