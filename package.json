@@ -1,13 +1,18 @@
 {
-  "name": "order-workflow-vue",
+  "name": "OrderForMaster",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build-device": "vue-cli-service build && npx cap sync && npx cap open",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@capacitor/android": "^2.0.2",
+    "@capacitor/cli": "^2.0.2",
+    "@capacitor/core": "^2.0.2",
+    "@capacitor/ios": "^2.0.2",
     "@ionic/core": "^5.0.7",
     "@ionic/vue": "0.0.9",
     "axios": "^0.19.2",
