@@ -27,7 +27,7 @@
                 </span>
                 <span v-if="index === 1" class="second-col">{{ item }}</span>
                 <span v-if="index === 2" class="third-col">
-                  <Status :status="item" />
+                  <Status :status="parseInt(item)" />
                 </span>
               </ion-col>
             </ion-row>

@@ -1,8 +1,16 @@
 <template>
-  <div>{{status}}</div>
+  <div><ion-icon name="radio-button-on-outline" :color="statusColor[status]"></ion-icon></div>
 </template>
 
 <script>
+import { radioButtonOnOutline } from "ionicons/icons";
+import { addIcons } from "ionicons";
+
+addIcons({
+  "ios-radio-button-on-outline": radioButtonOnOutline,
+  "md-radio-button-on-outline": radioButtonOnOutline,
+});
+
 export default {
   props: {
     status: {
@@ -12,7 +20,10 @@ export default {
   },
   data() {
     return {
-      key: "value",
+      statusColor: {
+        1: "warning",
+        2: "success",
+      },
     };
   },
   methods: {},
