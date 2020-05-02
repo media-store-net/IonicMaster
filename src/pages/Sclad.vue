@@ -10,7 +10,7 @@
         <ion-row size="3">
           <ion-col v-for="orders in orderList" :key="orders.id">
             <ion-card
-              @click="openModal"
+              @click="openModal()"
               :class="[
                 orders[3] == 1 ? 'open' : '',
                 orders[3] == 2 ? 'assembly' : '',
@@ -59,10 +59,9 @@ export default {
     };
   },
   methods: {
-    clickCard(orders) {
-      console.log(orders);
-    },
-
+    // clickCard(orders) {
+    //   console.log(orders);
+    // },
     openModal() {
       return this.$ionic.modalController
         .create({
@@ -125,7 +124,7 @@ ion-card-title {
   background: red;
   color: white;
 }
-.modal-wrapper.sc-ion-modal-md {
+.modal-wrapper .sc-ion-modal-md {
   height: 300px;
 }
 </style>
