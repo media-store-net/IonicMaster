@@ -13,33 +13,30 @@
         <ion-list-header>
           <ion-label>Список заказов</ion-label>
         </ion-list-header>
-        <ion-list v-for="(order, index) in orderList" :key="index">
-          <!-- @click="$router.push({ name: 'OrderDetails' })" -->
-          <ion-list v-for="(orderItem, index) in order" :key="index" size="12">
-            <ion-row>
-              <ion-col
-                v-for="(item, index) in orderItem"
-                :key="index"
-                style="width:100%"
-              >
-                <span v-if="index === 0" class="first-col">
-                  <i>{{ item }}</i>
-                </span>
-                <span v-if="index === 1" class="second-col">{{ item }}</span>
-                <span v-if="index === 2" class="third-col">
-                  <Status :status="item" />
-                </span>
-              </ion-col>
-            </ion-row>
-          </ion-list>
+        <ion-list size="12">
+          <ion-row v-for="orders in orderList" :key="orders.id">
+            <ion-col>
+              <span class="first-col">
+                <i>{{ orders[0] }}-{{ orders[1] }}</i>
+              </span>
+            </ion-col>
+            <ion-col>
+              <span class="second-col">{{ orders[2] }}</span>
+            </ion-col>
+            <ion-col>
+              <span class="third-col"
+                ><Status :status="parseInt(orders[3])"
+              /></span>
+            </ion-col>
+          </ion-row>
         </ion-list>
       </ion-grid>
     </ion-content>
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed">
       <ion-fab-button @click="$router.push({ name: 'Settings' })">
         <ion-icon name="ellipsis-vertical-outline"></ion-icon>
       </ion-fab-button>
-    </ion-fab>
+    </ion-fab> -->
   </ion-page>
 </template>
 
@@ -61,27 +58,24 @@ export default {
   },
   data() {
     return {
-      orderList: [],
+      orderList: null,
     };
   },
   methods: {
     getOrders(event = undefined) {
       const vm = this;
-      // console.log(event);
       axios
-        .get("http://78.85.25.174:85/")
+        .get("http://localhost:85/orders/findOrder")
         .then((res) => {
-          // console.log(res.data);
           const isErrors = res.data.isErrors;
+          // console.log(res.data.orders);
           if (!isErrors) {
             // One line to array
-            vm.orderList = [...vm.orderList, res.data.orders];
-            //vm.orderList.push(res.data.orders);
+            vm.orderList = res.data.orders;
 
             if (event) {
               event.target.complete();
             }
-            console.log(vm.orderList);
           }
         })
         .catch((error) => console.log(error));
@@ -97,6 +91,12 @@ export default {
 </script>
 
 <style scoped>
+/* ion-col {
+  display: flex;
+} */
+.first-col {
+  justify-content: flex-start;
+}
 ion-list-header {
   justify-content: center;
   align-items: center;
