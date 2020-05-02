@@ -10,7 +10,7 @@
         <ion-row size="3">
           <ion-col v-for="orders in orderList" :key="orders.id">
             <ion-card
-              @click="presentActionSheet"
+              @click="openModal"
               :class="[
                 orders[3] == 1 ? 'open' : '',
                 orders[3] == 2 ? 'assembly' : '',
@@ -18,7 +18,6 @@
                 orders[3] == 4 ? 'err' : '',
               ]"
             >
-              <ion-checkbox color="primary"></ion-checkbox>
               <ion-card-header>
                 <ion-card-subtitle
                   :class="[
@@ -49,6 +48,7 @@
 
 <script>
 import axios from "axios";
+import Modal from "../components/modal";
 
 export default {
   name: "Sclad",
@@ -59,38 +59,21 @@ export default {
     };
   },
   methods: {
-    // clickCard(orders) {
-    //   console.log(orders);
-    // },
-    presentActionSheet() {
-      return this.$ionic.actionSheetController
+    clickCard(orders) {
+      console.log(orders);
+    },
+
+    openModal() {
+      return this.$ionic.modalController
         .create({
-          header: "Действия",
-          buttons: [
-            {
-              text: "Начать сборку",
-              icon: "trash",
-              handler: () => {
-                console.log("Начать сборку");
-              },
+          component: Modal,
+          componentProps: {
+            propsData: {
+              title: "Выбирите действие",
             },
-            {
-              text: "Готово",
-              icon: "share",
-              handler: () => {
-                console.log("Готово");
-              },
-            },
-            {
-              text: "Выдать",
-              icon: "arrow-dropright-circle",
-              handler: () => {
-                console.log("Выдать");
-              },
-            },
-          ],
+          },
         })
-        .then((a) => a.present());
+        .then((m) => m.present());
     },
   },
 
@@ -125,13 +108,6 @@ ion-card {
   justify-content: center;
   align-items: center;
 }
-ion-checkbox {
-  position: absolute;
-  top: 5px;
-}
-svg.checkbox-icon {
-  border-radius: 50% !important;
-}
 ion-card-subtitle {
   font-size: 38px;
 }
@@ -148,5 +124,8 @@ ion-card-title {
 .err {
   background: red;
   color: white;
+}
+.modal-wrapper.sc-ion-modal-md {
+  height: 300px;
 }
 </style>
