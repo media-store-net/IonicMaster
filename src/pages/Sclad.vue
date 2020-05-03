@@ -47,8 +47,8 @@
 </template>
 
 <script>
-import axios from "axios";
 import Modal from "../components/changeOfStatusModal";
+import api from "../API/api";
 
 export default {
   name: "Sclad",
@@ -71,30 +71,29 @@ export default {
               title: "Выбирите действие!!!",
             },
           },
-          style: {
-            height: "300px",
-          },
         })
         .then((m) => m.present());
     },
-  },
+    getOrders() {
+      const self = this;
+      api
+        .getOrders()
+        .then((res) => {
+          const isErrors = res.data.isErrors;
+          if (!isErrors) {
+            // One line to array
+            self.orderList = res.data.orders;
 
-  mounted() {
-    const vm = this;
-    axios
-      .get("http://localhost:85/orders/findOrder")
-      .then((res) => {
-        const isErrors = res.data.isErrors;
-        if (!isErrors) {
-          // One line to array
-          vm.orderList = res.data.orders;
-
-          if (event) {
-            event.target.complete();
+            if (event) {
+              event.target.complete();
+            }
           }
-        }
-      })
-      .catch((error) => console.log(error));
+        })
+        .catch((error) => console.log(error));
+    },
+  },
+  mounted() {
+    this.getOrders();
   },
 };
 </script>

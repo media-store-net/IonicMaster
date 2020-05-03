@@ -8,13 +8,13 @@
     <ion-button @click="clickAssembly" shape="round" color="warning"
       >Начать сборку</ion-button
     >
-    <ion-button @click="clickReady" shape="round" color="success"
+    <ion-button @click="clickReady" shape="round" color="secondary"
       >Готово к выдаче</ion-button
     >
     <ion-button @click="clickErr" shape="round" color="danger"
       >Ошибка</ion-button
     >
-    <ion-button @click="clickDone" shape="round" color="secondary"
+    <ion-button @click="clickDone" shape="round" color="success"
       >Завершить заказ</ion-button
     >
   </div>
@@ -22,6 +22,8 @@
 
 <script>
 import Modal from "../components/cellModal";
+// import API from "../API/API";
+
 export default {
   name: "Modal",
   props: {
@@ -32,7 +34,9 @@ export default {
   },
   methods: {
     clickAssembly() {
-      alert("opne");
+      const self = this;
+      self.orders[3] = "2";
+      console.log(this.orders);
     },
     clickReady() {
       return this.$ionic.modalController

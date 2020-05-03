@@ -1,4 +1,4 @@
-<template style="height:300px">
+<template>
   <div>
     <ion-header>
       <ion-toolbar>
