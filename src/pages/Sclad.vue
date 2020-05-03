@@ -59,9 +59,6 @@ export default {
     };
   },
   methods: {
-    // clickCard(orders) {
-    //   console.log(orders);
-    // },
     openModal(orders) {
       return this.$ionic.modalController
         .create({
@@ -71,8 +68,11 @@ export default {
               orders,
             },
             propsData: {
-              title: "Выбирите действие",
+              title: "Выбирите действие!!!",
             },
+          },
+          style: {
+            height: "300px",
           },
         })
         .then((m) => m.present());

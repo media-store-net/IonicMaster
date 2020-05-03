@@ -2,7 +2,7 @@
   <div>
     <ion-header>
       <ion-toolbar>
-        <ion-title>{{ title }}</ion-title>
+        <ion-title class="modalTitle">{{ title }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-button @click="clickAssembly" shape="round" color="warning"
@@ -59,8 +59,15 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style>
+.modalTitle {
+  color: red;
+}
 ion-button {
   height: 70px;
+}
+.modal-wrapper.sc-ion-modal-md {
+  height: 400px;
+  border-radius: 30px;
 }
 </style>
