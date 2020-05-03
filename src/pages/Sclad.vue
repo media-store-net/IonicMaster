@@ -10,7 +10,7 @@
         <ion-row size="3">
           <ion-col v-for="orders in orderList" :key="orders.id">
             <ion-card
-              @click="openModal()"
+              @click="openModal(orders)"
               :class="[
                 orders[3] == 1 ? 'open' : '',
                 orders[3] == 2 ? 'assembly' : '',
@@ -48,7 +48,7 @@
 
 <script>
 import axios from "axios";
-import Modal from "../components/modal";
+import Modal from "../components/changeOfStatusModal";
 
 export default {
   name: "Sclad",
@@ -62,11 +62,14 @@ export default {
     // clickCard(orders) {
     //   console.log(orders);
     // },
-    openModal() {
+    openModal(orders) {
       return this.$ionic.modalController
         .create({
           component: Modal,
           componentProps: {
+            data: {
+              orders,
+            },
             propsData: {
               title: "Выбирите действие",
             },
