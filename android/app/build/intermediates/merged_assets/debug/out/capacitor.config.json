@@ -1,0 +1,8 @@
+{
+  "appId": "com.ionicmaster.app",
+  "appName": "IonicMaster",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist",
+  "cordova": {}
+}
