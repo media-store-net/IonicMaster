@@ -8,34 +8,35 @@
     <ion-content>
       <ion-list>
         <ion-row size="3">
-          <ion-col v-for="orders in orderList" :key="orders.id">
+          <ion-col v-for="orders in orderList" :key="orders._id">
             <ion-card
               @click="openModal(orders)"
               :class="[
-                orders[3] == 1 ? 'open' : '',
-                orders[3] == 2 ? 'assembly' : '',
-                orders[3] == 3 ? 'done' : '',
-                orders[3] == 4 ? 'err' : '',
+                orders.status == 1 ? 'open' : '',
+                orders.status == 2 ? 'assembly' : '',
+                orders.status == 3 ? 'done' : '',
+                orders.status == 4 ? 'err' : '',
               ]"
             >
               <ion-card-header>
                 <ion-card-subtitle
                   :class="[
-                    orders[3] == 1 ? 'open' : '',
-                    orders[3] == 2 ? 'assembly' : '',
-                    orders[3] == 3 ? 'done' : '',
-                    orders[3] == 4 ? 'err' : '',
+                    orders.status == 1 ? 'open' : '',
+                    orders.status == 2 ? 'assembly' : '',
+                    orders.status == 3 ? 'done' : '',
+                    orders.status == 4 ? 'err' : '',
                   ]"
-                  >({{ orders[0] }}) - {{ orders[1] }}</ion-card-subtitle
+                  >({{ orders.orderDate }}) -
+                  {{ orders.orderId }}</ion-card-subtitle
                 >
                 <ion-card-title
                   :class="[
-                    orders[3] == 1 ? 'open' : '',
-                    orders[3] == 2 ? 'assembly' : '',
-                    orders[3] == 3 ? 'done' : '',
-                    orders[3] == 4 ? 'err' : '',
+                    orders.status == 1 ? 'open' : '',
+                    orders.status == 2 ? 'assembly' : '',
+                    orders.status == 3 ? 'done' : '',
+                    orders.status == 4 ? 'err' : '',
                   ]"
-                  >{{ orders[2] }}</ion-card-title
+                  >{{ orders.desc }}</ion-card-title
                 >
               </ion-card-header>
             </ion-card>
@@ -82,7 +83,7 @@ export default {
           const isErrors = res.data.isErrors;
           if (!isErrors) {
             // One line to array
-            self.orderList = res.data.orders;
+            self.orderList = res.data;
 
             if (event) {
               event.target.complete();

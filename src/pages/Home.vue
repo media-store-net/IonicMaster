@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar color="primary">
-        <ion-title>Master</ion-title>
+        <ion-title>Заявки мастера</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
@@ -11,21 +11,21 @@
       </ion-refresher>
       <ion-grid class="home-grid">
         <ion-list-header>
-          <ion-label>Список заказов</ion-label>
+          <ion-label>Список заявок</ion-label>
         </ion-list-header>
         <ion-list size="12">
           <ion-row v-for="orders in orderList" :key="orders.id">
             <ion-col>
               <span class="first-col">
-                <i>{{ orders[0] }}-{{ orders[1] }}</i>
+                <i>{{ orders.orderDate }}-{{ orders.orderId }}</i>
               </span>
             </ion-col>
             <ion-col>
-              <span class="second-col">{{ orders[2] }}</span>
+              <span class="second-col">{{ orders.desc }}</span>
             </ion-col>
             <ion-col>
               <span class="third-col"
-                ><Status :status="parseInt(orders[3])"
+                ><Status :status="parseInt(orders.status)"
               /></span>
             </ion-col>
           </ion-row>
@@ -43,7 +43,7 @@
 <script>
 import { ellipsisVerticalOutline } from "ionicons/icons";
 import { addIcons } from "ionicons";
-import axios from "axios";
+import api from "../API/api";
 import Status from "../components/status";
 
 addIcons({
@@ -63,15 +63,13 @@ export default {
   },
   methods: {
     getOrders(event = undefined) {
-      const vm = this;
-      axios
-        .get("http://localhost:85/orders/findOrder")
+      const self = this;
+      api
+        .getOrders()
         .then((res) => {
           const isErrors = res.data.isErrors;
-          // console.log(res.data.orders);
           if (!isErrors) {
-            // One line to array
-            vm.orderList = res.data.orders;
+            self.orderList = res.data;
 
             if (event) {
               event.target.complete();
@@ -82,18 +80,13 @@ export default {
     },
   },
   created() {
-    //if (!this.orderList.length) {
     this.getOrders();
-    //}
   },
   mounted() {},
 };
 </script>
 
 <style scoped>
-/* ion-col {
-  display: flex;
-} */
 .first-col {
   justify-content: flex-start;
 }

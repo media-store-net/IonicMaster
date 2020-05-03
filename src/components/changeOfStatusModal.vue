@@ -35,7 +35,7 @@ export default {
   methods: {
     clickAssembly() {
       const self = this;
-      self.orders[3] = "2";
+      self.orders.status = "2";
       console.log(this.orders);
     },
     clickReady() {
