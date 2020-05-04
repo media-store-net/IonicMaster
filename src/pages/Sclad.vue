@@ -1,5 +1,6 @@
 <template>
   <ion-page>
+    <Status />
     <ion-header>
       <ion-toolbar color="primary">
         <ion-title>Склад - Заказы</ion-title>
@@ -8,18 +9,19 @@
     <ion-content>
       <ion-list>
         <ion-row size="3">
-          <ion-col v-for="orders in orderList" :key="orders._id">
+          <ion-col v-for="order in orderList" :key="order._id">
             <ion-card
-              @click="openModal(orders)"
-              :class="getStatusClass(orders.status)"
+              @click="showModal(order)"
+              :class="getStatusClass(order.status)"
             >
               <ion-card-header>
-                <ion-card-subtitle :class="getStatusClass(orders.status)"
-                  >({{ orders.orderDate }}) -
-                  {{ orders.orderId }}</ion-card-subtitle
-                >
-                <ion-card-title :class="getStatusClass(orders.status)">
-                  {{ orders.desc }}
+                <ion-card-subtitle :class="getStatusClass(order.status)">
+                  ({{ order.orderDate }}) -
+                  {{ order.orderId }}
+                </ion-card-subtitle>
+
+                <ion-card-title :class="getStatusClass(order.status)">
+                  {{ order.desc }}
                 </ion-card-title>
               </ion-card-header>
             </ion-card>
@@ -31,12 +33,14 @@
 </template>
 
 <script>
-import Modal from "../components/changeOfStatusModal";
+import Status from "../components/modalStatus";
 import api from "../API/api";
 
 export default {
   name: "Sclad",
-
+  components: {
+    Status,
+  },
   data() {
     return {
       orderList: null,
@@ -45,27 +49,15 @@ export default {
   methods: {
     getStatusClass(status) {
       const availableClasses = {
-        1: "open",
-        2: "assembly",
-        3: "done",
-        4: "err",
+        0: "open",
+        1: "assembly",
+        2: "done",
+        3: "err",
       };
       return availableClasses[status] ? availableClasses[status] : "";
     },
-    openModal(orders) {
-      return this.$ionic.modalController
-        .create({
-          component: Modal,
-          componentProps: {
-            data: {
-              orders,
-            },
-            propsData: {
-              title: "Выбирите действие!!!",
-            },
-          },
-        })
-        .then((m) => m.present());
+    showModal(order) {
+      this.$modal.show("modalStatus", { order: order });
     },
     getOrders() {
       const self = this;
@@ -74,12 +66,11 @@ export default {
         .then((res) => {
           const isErrors = res.data.isErrors;
           if (!isErrors) {
-            // One line to array
             self.orderList = res.data;
 
-            if (event) {
+            /* if (event) {
               event.target.complete();
-            }
+            } */
           }
         })
         .catch((error) => console.log(error));
@@ -118,8 +109,5 @@ ion-card-title {
 .err {
   background: red;
   color: white;
-}
-.modal-wrapper .sc-ion-modal-md {
-  height: 300px;
 }
 </style>

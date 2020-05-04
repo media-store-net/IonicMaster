@@ -53,9 +53,7 @@
 <script>
 export default {
   name: "Modal",
-  props: {
-    title: { type: String, default: "Super Modal" },
-  },
+
   data() {
     return {
       content: "Content",
