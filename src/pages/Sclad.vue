@@ -51,6 +51,7 @@
 <script>
 import Status from "../components/modalStatus";
 import api from "../API/api";
+import { EventBus } from "../ event-bus";
 
 export default {
   name: "Sclad",
@@ -65,6 +66,7 @@ export default {
   methods: {
     showModal(order) {
       this.$modal.show("modalStatus");
+      EventBus.$emit("order", order);
       console.log(order);
     },
 
