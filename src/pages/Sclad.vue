@@ -11,33 +11,16 @@
           <ion-col v-for="orders in orderList" :key="orders._id">
             <ion-card
               @click="openModal(orders)"
-              :class="[
-                orders.status == 1 ? 'open' : '',
-                orders.status == 2 ? 'assembly' : '',
-                orders.status == 3 ? 'done' : '',
-                orders.status == 4 ? 'err' : '',
-              ]"
+              :class="getStatusClass(orders.status)"
             >
               <ion-card-header>
-                <ion-card-subtitle
-                  :class="[
-                    orders.status == 1 ? 'open' : '',
-                    orders.status == 2 ? 'assembly' : '',
-                    orders.status == 3 ? 'done' : '',
-                    orders.status == 4 ? 'err' : '',
-                  ]"
+                <ion-card-subtitle :class="getStatusClass(orders.status)"
                   >({{ orders.orderDate }}) -
                   {{ orders.orderId }}</ion-card-subtitle
                 >
-                <ion-card-title
-                  :class="[
-                    orders.status == 1 ? 'open' : '',
-                    orders.status == 2 ? 'assembly' : '',
-                    orders.status == 3 ? 'done' : '',
-                    orders.status == 4 ? 'err' : '',
-                  ]"
-                  >{{ orders.desc }}</ion-card-title
-                >
+                <ion-card-title :class="getStatusClass(orders.status)">
+                  {{ orders.desc }}
+                </ion-card-title>
               </ion-card-header>
             </ion-card>
           </ion-col>
@@ -60,6 +43,15 @@ export default {
     };
   },
   methods: {
+    getStatusClass(status) {
+      const availableClasses = {
+        1: "open",
+        2: "assembly",
+        3: "done",
+        4: "err",
+      };
+      return availableClasses[status] ? availableClasses[status] : "";
+    },
     openModal(orders) {
       return this.$ionic.modalController
         .create({

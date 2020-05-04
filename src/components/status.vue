@@ -26,10 +26,10 @@ export default {
   data() {
     return {
       statusColor: {
-        1: "light",
-        2: "warning",
-        3: "success",
-        4: "danger",
+        1: "light", // open
+        2: "warning", // start completing
+        3: "success", // order complete
+        4: "danger", // Error state
       },
     };
   },
