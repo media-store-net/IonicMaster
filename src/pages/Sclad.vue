@@ -1,5 +1,6 @@
 <template>
   <ion-page>
+    <Status />
     <ion-header>
       <ion-toolbar color="primary">
         <ion-title>Склад - Заказы</ion-title>
@@ -8,35 +9,35 @@
     <ion-content>
       <ion-list>
         <ion-row size="3">
-          <ion-col v-for="orders in orderList" :key="orders._id">
+          <ion-col v-for="order in orderList" :key="order._id">
             <ion-card
-              @click="openModal(orders)"
+              @click="showModal(order)"
               :class="[
-                orders.status == 1 ? 'open' : '',
-                orders.status == 2 ? 'assembly' : '',
-                orders.status == 3 ? 'done' : '',
-                orders.status == 4 ? 'err' : '',
+                order.status == 0 ? 'open' : '',
+                order.status == 1 ? 'assembly' : '',
+                order.status == 2 ? 'done' : '',
+                order.status == 3 ? 'err' : '',
               ]"
             >
               <ion-card-header>
                 <ion-card-subtitle
                   :class="[
-                    orders.status == 1 ? 'open' : '',
-                    orders.status == 2 ? 'assembly' : '',
-                    orders.status == 3 ? 'done' : '',
-                    orders.status == 4 ? 'err' : '',
+                    order.status == 0 ? 'open' : '',
+                    order.status == 1 ? 'assembly' : '',
+                    order.status == 2 ? 'done' : '',
+                    order.status == 3 ? 'err' : '',
                   ]"
-                  >({{ orders.orderDate }}) -
-                  {{ orders.orderId }}</ion-card-subtitle
+                  >({{ order.orderDate }}) -
+                  {{ order.orderId }}</ion-card-subtitle
                 >
                 <ion-card-title
                   :class="[
-                    orders.status == 1 ? 'open' : '',
-                    orders.status == 2 ? 'assembly' : '',
-                    orders.status == 3 ? 'done' : '',
-                    orders.status == 4 ? 'err' : '',
+                    order.status == 0 ? 'open' : '',
+                    order.status == 1 ? 'assembly' : '',
+                    order.status == 2 ? 'done' : '',
+                    order.status == 3 ? 'err' : '',
                   ]"
-                  >{{ orders.desc }}</ion-card-title
+                  >{{ order.desc }}</ion-card-title
                 >
               </ion-card-header>
             </ion-card>
@@ -48,33 +49,25 @@
 </template>
 
 <script>
-import Modal from "../components/changeOfStatusModal";
+import Status from "../components/modalStatus";
 import api from "../API/api";
 
 export default {
   name: "Sclad",
-
+  components: {
+    Status,
+  },
   data() {
     return {
       orderList: null,
     };
   },
   methods: {
-    openModal(orders) {
-      return this.$ionic.modalController
-        .create({
-          component: Modal,
-          componentProps: {
-            data: {
-              orders,
-            },
-            propsData: {
-              title: "Выбирите действие!!!",
-            },
-          },
-        })
-        .then((m) => m.present());
+    showModal(order) {
+      this.$modal.show("modalStatus");
+      console.log(order);
     },
+
     getOrders() {
       const self = this;
       api
@@ -82,7 +75,6 @@ export default {
         .then((res) => {
           const isErrors = res.data.isErrors;
           if (!isErrors) {
-            // One line to array
             self.orderList = res.data;
 
             if (event) {
@@ -126,8 +118,5 @@ ion-card-title {
 .err {
   background: red;
   color: white;
-}
-.modal-wrapper .sc-ion-modal-md {
-  height: 300px;
 }
 </style>
