@@ -13,6 +13,7 @@
             <ion-card
               @click="showModal(order)"
               :class="getStatusClass(order.status)"
+              v-if="renderComponent"
             >
               <ion-card-header>
                 <ion-card-subtitle :class="getStatusClass(order.status)">
@@ -35,6 +36,7 @@
 <script>
 import Status from "../components/modalStatus";
 import api from "../API/api";
+//import { eventBus } from "../eventBus";
 
 export default {
   name: "Sclad",
@@ -43,8 +45,24 @@ export default {
   },
   data() {
     return {
+      renderComponent: true,
       orderList: null,
     };
+  },
+  watch: {
+    orderList: {
+      handler: function(newValue) {
+        //console.log(newValue);
+        // Remove my-component from the DOM
+        this.renderComponent = false;
+
+        this.$nextTick(() => {
+          // Add the component back in
+          this.renderComponent = true;
+        });
+      },
+      deep: true,
+    },
   },
   methods: {
     getStatusClass(status) {
@@ -67,10 +85,6 @@ export default {
           const isErrors = res.data.isErrors;
           if (!isErrors) {
             self.orderList = res.data;
-
-            /* if (event) {
-              event.target.complete();
-            } */
           }
         })
         .catch((error) => console.log(error));

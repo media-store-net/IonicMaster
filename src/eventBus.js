@@ -1,8 +1,10 @@
-import Vue from 'vue'
+import Vue from "vue";
 
 export const eventBus = new Vue({
-  state: {
-  },
+  state: {},
   methods: {
-  }
-})
+    onStatusChange(order) {
+      this.$emit("statusChanged", order);
+    },
+  },
+});

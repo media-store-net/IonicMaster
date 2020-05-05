@@ -26,10 +26,10 @@ export default {
   data() {
     return {
       statusColor: {
-        1: "light", // open
-        2: "warning", // start completing
-        3: "success", // order complete
-        4: "danger", // Error state
+        0: "light", // open
+        1: "warning", // start completing
+        2: "success", // order complete
+        3: "danger", // Error state
       },
     };
   },
@@ -38,4 +38,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="css" scoped>
+  ion-icon {
+    color: aliceblue;
+    border: 1px solid black;
+    border-radius: 50%;
+  }
+</style>
