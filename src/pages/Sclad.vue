@@ -51,7 +51,7 @@ export default {
   },
   watch: {
     orderList: {
-      handler: function(newValue) {
+      handler: function() {
         //console.log(newValue);
         // Remove my-component from the DOM
         this.renderComponent = false;
